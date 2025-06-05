@@ -7,23 +7,18 @@ public abstract class BaseAIController : MonoBehaviour
     protected NavMeshAgent agent;
     protected BaseStat stat;
     protected Vector3 origin;
-    protected Animator animator;
     public bool IsStopped => !agent.pathPending && (!agent.hasPath || agent.remainingDistance <= 0.2f);
     public BaseStat Stat => stat;
+    public EntityBase CurrentTarget { get; protected set; }
 
     protected virtual void Awake()
     {
         origin = transform.position;
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
     }
     public void Init(BaseStat stat)
     {
         this.stat = stat;
-    }
-    public void SetSpeed(StateType state)
-    {
-        animator?.SetFloat("Speed", agent.speed);
     }
     public void MoveTo(Vector3 destination)
     {
@@ -65,15 +60,13 @@ public abstract class BaseAIController : MonoBehaviour
         transform.rotation = targetRot;
     }
 
-    public void PlayDamagedAnimation()
-    {
-        animator.SetTrigger("Hit");
-    }
-
     public void PlayDieAnimation()
     {
-        animator.SetTrigger("Dead");
         StartCoroutine(Destroy());
+    }
+    public void SetTarget(EntityBase target)
+    {
+        CurrentTarget = target;
     }
     IEnumerator Destroy()
     {

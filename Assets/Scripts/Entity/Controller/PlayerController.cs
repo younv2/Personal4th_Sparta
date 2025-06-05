@@ -12,12 +12,15 @@ public class PlayerController : BaseAIController
     {
         StopCoroutine(coroutine);
     }
+    private void Update()
+    {
+        CurrentTarget = MonsterManager.Instance.GetNearestMonster(transform.position);
+    }
     IEnumerator Attack(Transform target)
     {
         while (true)
         {
             Debug.Log("공격!");
-            animator?.SetTrigger("Attack");
             if (stat.TryGetStat(StatType.AttackDelay, out var data))
             {
                 yield return new WaitForSeconds(data.FinalValue);

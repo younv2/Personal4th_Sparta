@@ -28,7 +28,12 @@ public enum MonsterType
     GreenCapsule,
     RedSquare
 }
-
+public enum Team
+{
+    Player,
+    Monster
+}
+public enum RoomType { Start, Normal, Boss }
 public class Define : MonoBehaviour
 {
     

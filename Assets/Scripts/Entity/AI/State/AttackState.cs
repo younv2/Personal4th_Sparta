@@ -13,6 +13,10 @@ public class AttackState : BaseState
         {
             monsterController.StartAttack(Context.Target);
         }
+        if (Context.Controller is PlayerController playerController)
+        {
+            playerController.StartAttack(Context.Target);
+        }
     }
 
     public override void OnExit()
@@ -20,6 +24,10 @@ public class AttackState : BaseState
         if (Context.Controller is MonsterController monsterController)
         {
             monsterController.StopAttack();
+        }
+        if (Context.Controller is PlayerController playerController)
+        {
+            playerController.StopAttack();
         }
     }
 

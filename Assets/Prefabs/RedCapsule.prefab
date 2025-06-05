@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1995059855920647523}
   - component: {fileID: 8771824718072050623}
   - component: {fileID: 4964456511443248846}
+  - component: {fileID: 2836934058845842252}
   m_Layer: 0
   m_Name: RedCapsule
   m_TagString: Untagged
@@ -148,3 +149,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateSet: {fileID: 11400000, guid: aa5852875fc769e4797f46491aa09673, type: 2}
+--- !u!195 &2836934058845842252
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8224058709794195057}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

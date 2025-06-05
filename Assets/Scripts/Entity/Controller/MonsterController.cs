@@ -1,10 +1,13 @@
-using UnityEngine.AI;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class MonsterController : BaseAIController
 {
     Coroutine coroutine;
+    private void Start()
+    {
+        CurrentTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<EntityBase>();
+    }
     public void StartAttack(Transform target)
     {
         coroutine = StartCoroutine(Attack(target));
@@ -18,7 +21,6 @@ public class MonsterController : BaseAIController
         while (true)
         {
             Debug.Log("공격!");
-            animator?.SetTrigger("Attack");
             if(stat.TryGetStat(StatType.AttackDelay,out var data))
             {
                 yield return new WaitForSeconds(data.FinalValue);

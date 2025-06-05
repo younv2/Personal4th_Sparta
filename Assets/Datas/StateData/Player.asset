@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d67653999b38174891d463db22837e3, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  stateTypes: 
+  stateTypes: 0000000001000000020000000300000004000000

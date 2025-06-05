@@ -29,17 +29,10 @@ public class IdleState : BaseState
 
     bool FindTarget()
     {
-        if (Context.Target == null) return false;
-
-        BaseAIController controller = Context.Controller;
-        Vector3 origin = controller.transform.position + Vector3.up * 0.5f;
-        Vector3 direction = (Context.Target.position - origin);
-        float distance = direction.magnitude;
-
-        //if (distance > controller.Stat.TargetDetectedRange)
-            return false;
-
-        return Physics.Raycast(origin, direction.normalized, out var hit, distance) &&
-               hit.transform == Context.Target;
+        if (Context.Target && Context.Controller.Stat.TryGetStat(StatType.WanderTargetDetectRange, out var data))
+        {
+            return Vector3.Distance(Context.Controller.transform.position, Context.Target.position) < data.FinalValue;
+        }
+        return false;
     }
 }

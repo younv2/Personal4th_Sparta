@@ -6,5 +6,6 @@ public class Monster : EntityBase
         stat.Init(statDataSO.stats);
         controller = GetComponent<MonsterController>();
         controller.Init(stat);
+        team = Team.Monster;
     }
 }

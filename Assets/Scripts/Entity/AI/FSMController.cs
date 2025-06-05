@@ -6,13 +6,11 @@ public class FSMController : MonoBehaviour
     [SerializeField] private StateSetSO stateSet;
     private Dictionary<StateType, BaseState> stateDic = new();
     private BaseState currentState;
-    private Transform target;
     AIContext context;
 
     private void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        context = new AIContext(GetComponent<BaseAIController>(),this,target);
+        context = new AIContext(GetComponent<BaseAIController>(),this);
         foreach (var type in stateSet.stateTypes)
             stateDic[type] = CreateState(type);
         ChangeState(StateType.Wander);
@@ -30,7 +28,6 @@ public class FSMController : MonoBehaviour
         if (currentState != stateDic[state])
         {
             currentState?.OnExit();
-            context.Controller.SetSpeed(state);
             currentState = stateDic[state];
             currentState?.OnEnter();
         }
@@ -51,13 +48,12 @@ public class FSMController : MonoBehaviour
 }
 public class AIContext
 {
-    public AIContext(BaseAIController controller, FSMController fsm, Transform target)
+    public AIContext(BaseAIController controller, FSMController fsm)
     {
         Controller = controller;
         Fsm = fsm;
-        Target = target;
     }
     public BaseAIController Controller { get; }
     public FSMController Fsm { get; }
-    public Transform Target { get; }
+    public Transform Target => Controller.CurrentTarget?.transform;
 }

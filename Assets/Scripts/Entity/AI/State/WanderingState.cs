@@ -14,6 +14,7 @@ public class WanderingState : BaseState
 
     public override void OnUpdate()
     {
+        
         if (Context.Controller.IsStopped)
         {
             if(idleChance> Random.value)
