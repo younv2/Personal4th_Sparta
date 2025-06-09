@@ -1,14 +1,34 @@
+using System.Collections;
+using UnityEngine;
+
 public class GameManager : MonoSingleton<GameManager>
 {
-    // Start is called before the first frame update
+    private int seed = 12345;
+
+    [SerializeField] private MapGenerator mapGenerator;
+    [SerializeField] private LevelTableSO levelTable;
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
+    public LevelTableSO LevelTable {  get { return levelTable; } }
+    public Inventory Inventory { get; private set; } = new();
+    public Player Player { get; set; } = new();
     void Start()
     {
-        StageManager.Instance.StartStage(1);
+        UnityEngine.Random.InitState(seed);
+        StartCoroutine(GenerateAndStartStage());
     }
-
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// 맵 생성후 같은 프레임에 BuildNavMesh를 호출하면 Build를 못함.
+    /// 한 프레임 이후 작업.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator GenerateAndStartStage()
     {
-        
+        mapGenerator.GenerateMap();
+
+        yield return null;
+
+        mapGenerator.Surface.BuildNavMesh();
+        StageManager.Instance.StartStage(1);
+        virtualCamera.Follow = Player.transform;
     }
 }

@@ -1,6 +1,5 @@
 ﻿public class Player : EntityBase
 {
-
     private void Awake()
     {
         stat = new PlayerStat();

@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 
 public class MapGenerator : MonoBehaviour
 {
-    [Header("Seed")]
-    public int seed = 12345;
-
+    [SerializeField] private NavMeshSurface surface;
+    public NavMeshSurface Surface {  get { return surface; } }
     [Header("Room Prefabs")]
     public GameObject startRoom;
     public GameObject[] normalRooms;
@@ -14,19 +14,17 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Settings")]
     public int maxRoomCount = 10;
-    public float cellSize = 20f;            // 한 셀(방) 크기
+    public float cellSize = 10f;       
     [Range(0f, 1f)]
     public float exitConnectionChance = 0.6f;
 
-    [Header("Debug")]
-    public bool drawGizmos = false;
-
-    // === 내부 상태 ===
-    private readonly HashSet<Vector2Int> placedCells = new();                                  // 이미 사용된 셀 좌표
-    private readonly List<GameObject> spawnedRooms = new();                                    // 생성된 방 프리팹
-    private readonly HashSet<(Vector2Int cell, Dir dir)> connected = new();                    // (셀, 방향) 단위로 연결 여부
+    private readonly HashSet<Vector2Int> placedCells = new();                            
+    private readonly List<GameObject> spawnedRooms = new();                              
+    private readonly HashSet<(Vector2Int cell, Dir dir)> connected = new();              
 
     private enum Dir { North, South, East, West }
+
+    
 
     private static readonly Dictionary<Dir, Vector2Int> dirOffset = new()
     {
@@ -36,19 +34,11 @@ public class MapGenerator : MonoBehaviour
         {Dir.West,  new Vector2Int(-1, 0)}
     };
 
-    // --------------------------------------------------
-    // 초기 진입
-    // --------------------------------------------------
-    void Start()
-    {
-        Random.InitState(seed);
-        GenerateDungeon();
-    }
 
-    // --------------------------------------------------
-    // 던전 생성 주루틴
-    // --------------------------------------------------
-    void GenerateDungeon()
+    /// <summary>
+    /// 맵 생성
+    /// </summary>
+    public void GenerateMap()
     {
         var queue = new Queue<RoomNode>();
 
@@ -59,10 +49,10 @@ public class MapGenerator : MonoBehaviour
 
         int roomCount = 1;
 
-        // 2) BFS 확장
+        // 2) BFS
         while (queue.Count > 0 && roomCount < maxRoomCount)
         {
-            var current = queue.Dequeue();
+            RoomNode current = queue.Dequeue();
             var exits = current.room.GetComponent<Room>().exits.OrderBy(_ => Random.value);
 
             foreach (var exit in exits)
@@ -77,15 +67,15 @@ public class MapGenerator : MonoBehaviour
                 if (connected.Contains((fromCell, dir)) || connected.Contains((toCell, Opposite(dir))))
                     continue;
 
-                if (placedCells.Contains(toCell)) continue;          // 이미 방 존재
+                if (placedCells.Contains(toCell)) continue; 
 
-                bool enqueue = true;
+                bool isBossRoom = true;
                 GameObject prefab;
 
                 if (roomCount == maxRoomCount - 1)
                 {
                     prefab = bossRoom;
-                    enqueue = false;  // 보스방은 확장 금지
+                    isBossRoom = false;
                 }
                 else
                 {
@@ -93,29 +83,33 @@ public class MapGenerator : MonoBehaviour
                 }
 
                 GameObject newRoom = CreateRoom(prefab, toCell);
-
+                StageManager.Instance.allRooms.Add(new RoomArea(newRoom.GetComponent<Room>().roomType,newRoom.GetComponent<Collider>().bounds));
                 // 연결 정보 기록 (양방향)
                 connected.Add((fromCell, dir));
                 connected.Add((toCell, Opposite(dir)));
 
-                if (enqueue)
+                if (isBossRoom)
                 {
                     queue.Enqueue(new RoomNode(newRoom, toCell));
                 }
                 else
                 {
-                    return; // 보스방 배치 후 즉시 종료
+                    return;
                 }
 
                 roomCount++;
                 if (roomCount >= maxRoomCount) break;
             }
         }
+        
     }
 
-    // --------------------------------------------------
-    // 방 생성 & 등록
-    // --------------------------------------------------
+    /// <summary>
+    ///  방 생성
+    /// </summary>
+    /// <param name="prefab"></param>
+    /// <param name="cell"></param>
+    /// <returns></returns>
     GameObject CreateRoom(GameObject prefab, Vector2Int cell)
     {
         Vector3 worldPos = new(cell.x * cellSize, 0f, cell.y * cellSize);
@@ -125,9 +119,7 @@ public class MapGenerator : MonoBehaviour
         return room;
     }
 
-    // --------------------------------------------------
-    // 방향 계산 & 보조 함수
-    // --------------------------------------------------
+
     static Dir GetDir(Vector3 forward)
     {
         Vector3 dir = forward.normalized;
@@ -145,9 +137,6 @@ public class MapGenerator : MonoBehaviour
         _ => Dir.East
     };
 
-    // --------------------------------------------------
-    // 내부 데이터 구조체
-    // --------------------------------------------------
     struct RoomNode
     {
         public GameObject room;
@@ -156,20 +145,6 @@ public class MapGenerator : MonoBehaviour
         {
             this.room = room;
             this.cell = cell;
-        }
-    }
-
-    // --------------------------------------------------
-    // 디버그용 기즈모
-    // --------------------------------------------------
-    void OnDrawGizmos()
-    {
-        if (!drawGizmos) return;
-        Gizmos.color = Color.green;
-        foreach (var cell in placedCells)
-        {
-            Vector3 pos = new(cell.x * cellSize, 0f, cell.y * cellSize);
-            Gizmos.DrawWireCube(pos, Vector3.one * cellSize * 0.9f);
         }
     }
 }

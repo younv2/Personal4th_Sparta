@@ -4,24 +4,13 @@
 public class StageInfo
 {
     public int stageKey;
-    public WaveData[] waves;
-
-    public StageInfo(int stageKey, WaveData[] waves)
-    {
-        this.stageKey = stageKey;
-        this.waves = waves;
-    }
-}
-
-[System.Serializable]
-public class WaveData
-{
     public MonsterSpawnData[] monsters;
     public bool hasBoss;
     public MonsterType bossType;
 
-    public WaveData(MonsterSpawnData[] monsters, bool hasBoss, MonsterType bossType)
+    public StageInfo(int stageKey, MonsterSpawnData[] monsters, bool hasBoss, MonsterType bossType)
     {
+        this.stageKey = stageKey;
         this.monsters = monsters;
         this.hasBoss = hasBoss;
         this.bossType = bossType;

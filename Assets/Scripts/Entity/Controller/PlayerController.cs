@@ -23,7 +23,8 @@ public class PlayerController : BaseAIController
             Debug.Log("공격!");
             if (stat.TryGetStat(StatType.AttackDelay, out var data))
             {
-                yield return new WaitForSeconds(data.FinalValue);
+                CurrentTarget.TakeDamage(stat.GetStat(StatType.Attack).FinalValue);
+                yield return new WaitForSeconds((float)data.FinalValue);
             }
         }
     }

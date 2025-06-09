@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Stat
@@ -5,20 +6,20 @@ public class Stat
     
     public StatType Type { get; }
     
-    public float BaseValue { get; private set; }
-    public float BuffValue { get; private set; }
-    public float EquipmentValue { get; private set; }
-    public float LevelValue {  get; private set; }
+    public double BaseValue { get; private set; }
+    public double BuffValue { get; private set; }
+    public double EquipmentValue { get; private set; }
+    public double LevelValue {  get; private set; }
 
-    public float FinalValue => BaseValue + EquipmentValue + BuffValue + LevelValue;
+    public double FinalValue => BaseValue + EquipmentValue + BuffValue + LevelValue;
 
     public bool IsResource { get; private set; }
-    public float CurrentValue {  get; private set; }
+    public double CurrentValue {  get; private set; }
 
     public Stat()
     {
     }
-    public Stat(StatType type, float baseValue = 0f, bool isResource = false)
+    public Stat(StatType type, double baseValue = 0f, bool isResource = false)
     {
         Type = type;
         IsResource = isResource;
@@ -40,56 +41,88 @@ public class Stat
         IsResource = stat.IsResource;
     }
     #region Add
-    public void AddBaseValue(float value, float min = 0f, float max = float.MaxValue)
+    public void AddBaseValue(double value, double min = 0f, double max = double.MaxValue)
     {
-        BaseValue = Mathf.Clamp(BaseValue + value, min, max);
+        BaseValue = Math.Clamp(BaseValue + value, min, max);
         if (IsResource)
             SyncCurrentValue();
     }
-    public void AddLevelValue(float value, float min = 0f, float max = float.MaxValue)
+    public void AddLevelValue(double value, double min = 0f, double max = double.MaxValue)
     {
-        LevelValue = Mathf.Clamp(LevelValue + value, min, max);
+        LevelValue = Math.Clamp(LevelValue + value, min, max);
         if (IsResource)
             SyncCurrentValue();
     }
-    public void AddEquipmentValue(float value, float min = 0f, float max = float.MaxValue)
+    public void AddEquipmentValue(double value, double min = 0f, double max = double.MaxValue)
     {
-        EquipmentValue = Mathf.Clamp(EquipmentValue + value, min, max);
+        EquipmentValue = Math.Clamp(EquipmentValue + value, min, max);
         if (IsResource)
             SyncCurrentValue();
     }
-    public void AddBuffValue(float value, float min = 0f, float max = float.MaxValue)
+    public void AddBuffValue(double value, double min = 0f, double max = double.MaxValue)
     {
-        BuffValue = Mathf.Clamp(BuffValue + value, min, max);
+        BuffValue = Math.Clamp(BuffValue + value, min, max);
         if (IsResource)
             SyncCurrentValue();
     }
 
-    public void AddCurrentValue(float value)
+    public void AddCurrentValue(double value)
     {
         if (!IsResource) return;
-        CurrentValue = Mathf.Clamp(CurrentValue + value, 0f, FinalValue);
+        CurrentValue = Math.Clamp(CurrentValue + value, 0f, FinalValue);
+    }
+    #endregion
+    #region Sub
+    public void SubBaseValue(double value, double min = 0f, double max = double.MaxValue)
+    {
+        BaseValue = Math.Clamp(BaseValue - value, min, max);
+        if (IsResource)
+            SyncCurrentValue();
+    }
+    public void SubLevelValue(double value, double min = 0f, double max = double.MaxValue)
+    {
+        LevelValue = Math.Clamp(LevelValue - value, min, max);
+        if (IsResource)
+            SyncCurrentValue();
+    }
+    public void SubEquipmentValue(double value, double min = 0f, double max = double.MaxValue)
+    {
+        EquipmentValue = Math.Clamp(EquipmentValue - value, min, max);
+        if (IsResource)
+            SyncCurrentValue();
+    }
+    public void SubBuffValue(double value, double min = 0f, double max = double.MaxValue)
+    {
+        BuffValue = Math.Clamp(BuffValue - value, min, max);
+        if (IsResource)
+            SyncCurrentValue();
+    }
+
+    public void SubCurrentValue(double value)
+    {
+        if (!IsResource) return;
+        CurrentValue = Math.Clamp(CurrentValue - value, 0f, FinalValue);
     }
     #endregion
 
-    public void SetLevelValue(float value, float min = 0f, float max = float.MaxValue)
+    public void SetLevelValue(double value, double min = 0f, double max = double.MaxValue)
     {
-        LevelValue = Mathf.Clamp(value, min, max);
+        LevelValue = Math.Clamp(value, min, max);
         if (IsResource)
             SyncCurrentValue();
     }
 
     
-    public void SetCurrentValue(float value)
+    public void SetCurrentValue(double value)
     {
         if (!IsResource) return;
-        CurrentValue = Mathf.Clamp(value, 0f, FinalValue);
+        CurrentValue = Math.Clamp(value, 0f, FinalValue);
     }
 
     public void SyncCurrentValue()
     {
         if (!IsResource) return;
-        CurrentValue = Mathf.Clamp(CurrentValue, 0f, FinalValue);
+        CurrentValue = Math.Clamp(CurrentValue, 0f, FinalValue);
     }
 
     public string GetStatName()

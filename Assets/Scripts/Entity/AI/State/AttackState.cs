@@ -33,7 +33,12 @@ public class AttackState : BaseState
 
     public override void OnUpdate()
     {
-        if(!Context.Controller.IsStopped)
+        if (!Context.Target)
+        {
+            Context.Fsm.ChangeState(StateType.Wander);
+            return;
+        }
+        if (!Context.Controller.IsStopped)
         { 
             Context.Controller.StopMoving(); 
         }

@@ -33,4 +33,8 @@ public class MonsterManager : MonoSingleton<MonsterManager>
 
         return nearest;
     }
+    public int GetMonsterCount()
+    {
+        return monsters.Count;
+    }
 }
