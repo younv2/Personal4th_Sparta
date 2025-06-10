@@ -8,6 +8,8 @@ public class InventoryItemSlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameTxt;
     [SerializeField] private TextMeshProUGUI descTxt;
     [SerializeField] private TextMeshProUGUI quantityTxt;
+    [SerializeField] private Button UseBtn;
+    [SerializeField] private TextMeshProUGUI UseBtnTxt;
     private int itemId;
 
     public void Init(ItemData itemData,int quantity)
@@ -17,6 +19,16 @@ public class InventoryItemSlot : MonoBehaviour
         image.sprite = itemData.Sprite;
         nameTxt.text = itemData.Name;
         descTxt.text = itemData.Desc;
-        quantityTxt.text = $"x {quantity}";
+        quantityTxt.text = itemData.isStackable ? $"x {quantity}" : "";
+        UseBtnTxt.text = itemData.type == ItemType.Equipment ? "장착" : "사용";
+        UseBtn.onClick.AddListener(() => Use());
+    }
+
+    public void Use()
+    {
+        ItemData data = DataManager.Instance.GetItemData(itemId);
+        if (data == null)
+            return;
+
     }
 }

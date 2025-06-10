@@ -15,38 +15,39 @@ public class InventoryPopup : BasePopup
         items = GameManager.Instance.Inventory.Items;
 
         for (int i = 0; i < items.Count; i++)
-        {
-            GameObject go = Instantiate(slotPrefab, slotParent);
-            InventoryItemSlot slot = go.GetComponent<InventoryItemSlot>();
-            slot.Init(DataManager.Instance.GetItemData(items[i].Id), items[i].Quantity);
-            pools.Add(slot);
-        }
+            AddSlotToPool();
     }
 
     public override void Show()
     {
         base.Show();
 
-        for (int i = 0; i < items.Count; i++)
+        items = GameManager.Instance.Inventory.Items;
+
+        // 1) 풀 확장
+        while (pools.Count < items.Count)
+            AddSlotToPool();
+
+        // 2) 슬롯 갱신
+        for (int i = 0; i < pools.Count; i++)
         {
-            if (i < pools.Count)
+            if (i < items.Count)
             {
+                var data = DataManager.Instance.GetItemData(items[i].Id);
+                pools[i].Init(data, items[i].Quantity);
                 pools[i].gameObject.SetActive(true);
-                pools[i].Init(DataManager.Instance.GetItemData(items[i].Id), items[i].Quantity);
             }
             else
             {
-                GameObject go = Instantiate(slotPrefab, slotParent);
-                InventoryItemSlot slot = go.GetComponent<InventoryItemSlot>();
-                slot.Init(DataManager.Instance.GetItemData(items[i].Id), items[i].Quantity);
-                pools.Add(slot);
+                pools[i].gameObject.SetActive(false);
             }
         }
+    }
 
-        // 남은 슬롯 비활성화
-        for (int i = items.Count; i < pools.Count; i++)
-        {
-            pools[i].gameObject.SetActive(false);
-        }
+    private void AddSlotToPool()
+    {
+        var go = Object.Instantiate(slotPrefab, slotParent);
+        var slot = go.GetComponent<InventoryItemSlot>();
+        pools.Add(slot);
     }
 }
