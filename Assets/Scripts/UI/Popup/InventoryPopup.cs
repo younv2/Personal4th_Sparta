@@ -16,19 +16,26 @@ public class InventoryPopup : BasePopup
 
         for (int i = 0; i < items.Count; i++)
             AddSlotToPool();
+        GameManager.Instance.Inventory.onInventoryChanged += SyncInventory;
     }
-
+    private void OnDestroy()
+    {
+        if(GameManager.Instance != null)
+        GameManager.Instance.Inventory.onInventoryChanged -= SyncInventory;
+    }
     public override void Show()
     {
         base.Show();
 
         items = GameManager.Instance.Inventory.Items;
 
-        // 1) 풀 확장
         while (pools.Count < items.Count)
             AddSlotToPool();
 
-        // 2) 슬롯 갱신
+        SyncInventory();
+    }
+    public void SyncInventory()
+    {
         for (int i = 0; i < pools.Count; i++)
         {
             if (i < items.Count)
@@ -43,7 +50,6 @@ public class InventoryPopup : BasePopup
             }
         }
     }
-
     private void AddSlotToPool()
     {
         var go = Object.Instantiate(slotPrefab, slotParent);

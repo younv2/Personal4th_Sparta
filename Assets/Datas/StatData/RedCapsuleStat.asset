@@ -35,7 +35,7 @@ MonoBehaviour:
     baseValue: 5
     isResource: 0
   - type: 8
-    baseValue: 20
+    baseValue: 5000
     isResource: 0
   - type: 9
     baseValue: 15

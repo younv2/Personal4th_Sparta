@@ -9,6 +9,7 @@ public class ItemData : ScriptableObject
     public string Desc;
     public Sprite Sprite;
     public ItemType type;
+    public EquipmentType equipmentType;
     public bool isStackable;
     public int maxStackCount;
     public bool isImmediately;

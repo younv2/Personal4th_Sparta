@@ -1,4 +1,6 @@
-﻿public class Player : EntityBase
+using UnityEngine;
+
+public class Player : EntityBase
 {
     private void Awake()
     {
@@ -7,5 +9,9 @@
         controller = GetComponent<PlayerController>();
         controller.Init(stat);
         team = Team.Player; 
+    }
+    private void Update()
+    {
+        Debug.Log(stat.Stats[StatType.AttackRange].FinalValue);
     }
 }

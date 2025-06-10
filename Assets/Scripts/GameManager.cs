@@ -32,4 +32,9 @@ public class GameManager : MonoSingleton<GameManager>
         virtualCamera.Follow = Player.transform;
         UIManager.Instance.HUD.gameObject.SetActive(true);
     }
+
+    public void StartBuffCoroutine(IEnumerator enumerator)
+    {
+        StartCoroutine(enumerator);
+    }
 }

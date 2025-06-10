@@ -21,6 +21,7 @@ public class InventoryItemSlot : MonoBehaviour
         descTxt.text = itemData.Desc;
         quantityTxt.text = itemData.isStackable ? $"x {quantity}" : "";
         UseBtnTxt.text = itemData.type == ItemType.Equipment ? "장착" : "사용";
+        UseBtn.onClick.RemoveAllListeners();
         UseBtn.onClick.AddListener(() => Use());
     }
 
@@ -29,6 +30,14 @@ public class InventoryItemSlot : MonoBehaviour
         ItemData data = DataManager.Instance.GetItemData(itemId);
         if (data == null)
             return;
+        if(data.type== ItemType.Equipment)
+        {
+            GameManager.Instance.Inventory.Equip(itemId);
+        }
+        else
+        {
+            GameManager.Instance.Inventory.UseItem(itemId);
 
+        }
     }
 }

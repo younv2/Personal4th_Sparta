@@ -38,6 +38,7 @@ public enum UIPopupType
     Shop, Inventory
 }
 public enum RoomType { Start, Normal, Boss }
+public enum EquipmentType {None ,Weapon}
 public class Define : MonoBehaviour
 {
     

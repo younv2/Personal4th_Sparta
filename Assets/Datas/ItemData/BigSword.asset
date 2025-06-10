@@ -17,6 +17,7 @@ MonoBehaviour:
   Desc: "\uAC80\uC774\uB2E4."
   Sprite: {fileID: -1967948257, guid: bccca3b126a04724197c5136e56aeb16, type: 3}
   type: 1
+  equipmentType: 1
   isStackable: 0
   maxStackCount: 0
   isImmediately: 0

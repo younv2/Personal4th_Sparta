@@ -24,7 +24,7 @@ public class MonsterController : BaseAIController
             if(stat.TryGetStat(StatType.AttackDelay,out var data))
             {
                 CurrentTarget.TakeDamage(stat.GetStat(StatType.Attack).FinalValue);
-                yield return new WaitForSeconds((float)data.FinalValue);
+                yield return new WaitForSeconds((float)data.FinalValue/1);
             }
         }
     }
