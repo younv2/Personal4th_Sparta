@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public abstract class BaseState
 {
     protected AIContext Context { get; }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Stat
 {
-    
     public StatType Type { get; }
     
     public double BaseValue { get; private set; }
@@ -130,7 +129,7 @@ public class Stat
         switch (Type)
         {
             case StatType.Attack:
-                return "°ø°Ý·Â";
+                return "ê³µê²©ë ¥";
             case StatType.Hp:
                 return "HP";
             case StatType.Mp:

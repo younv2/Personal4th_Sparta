@@ -16,16 +16,18 @@ public abstract class BaseAIController : MonoBehaviour
         origin = transform.position;
         agent = GetComponent<NavMeshAgent>();
     }
+
     public void Init(BaseStat stat)
     {
         this.stat = stat;
     }
+
     public void MoveTo(Vector3 destination)
     {
         agent.isStopped = false;
         agent.SetDestination(destination);
-        
     }
+
     public bool MoveToRandom()
     {
         Vector3 random = transform.position + Random.insideUnitSphere * 5f;
@@ -39,6 +41,7 @@ public abstract class BaseAIController : MonoBehaviour
 
         return false;
     }
+
     public void MoveToOrigin()
     {
         MoveTo(origin);

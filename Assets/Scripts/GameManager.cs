@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    private int seed = 12345;
+    [SerializeField] private int seed = 12345;
 
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private LevelTableSO levelTable;
@@ -17,8 +17,8 @@ public class GameManager : MonoSingleton<GameManager>
         StartCoroutine(GenerateAndStartStage());
     }
     /// <summary>
-    /// ¸Ê »ı¼ºÈÄ °°Àº ÇÁ·¹ÀÓ¿¡ BuildNavMesh¸¦ È£ÃâÇÏ¸é Build¸¦ ¸øÇÔ.
-    /// ÇÑ ÇÁ·¹ÀÓ ÀÌÈÄ ÀÛ¾÷.
+    /// ë§µ ìƒì„±í›„ ê°™ì€ í”„ë ˆì„ì— BuildNavMeshë¥¼ í˜¸ì¶œí•˜ë©´ Buildë¥¼ ëª»í•¨.
+    /// í•œ í”„ë ˆì„ ì´í›„ ì‘ì—….
     /// </summary>
     /// <returns></returns>
     IEnumerator GenerateAndStartStage()
@@ -30,5 +30,6 @@ public class GameManager : MonoSingleton<GameManager>
         mapGenerator.Surface.BuildNavMesh();
         StageManager.Instance.StartStage(1);
         virtualCamera.Follow = Player.transform;
+        UIManager.Instance.HUD.gameObject.SetActive(true);
     }
 }

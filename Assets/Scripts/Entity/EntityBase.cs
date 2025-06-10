@@ -7,9 +7,11 @@ public class EntityBase : MonoBehaviour
     protected BaseStat stat;
     protected Team team;
     public bool IsDead { get; protected set; }
+    public BaseStat Stat { get { return stat; } }
 
     [SerializeField]protected EntityUIHealthBar hpBar;
-    [SerializeField] protected StatDataSO statDataSO;
+    [SerializeField]protected StatDataSO statDataSO;
+
     public void Init()
     {
     }

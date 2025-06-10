@@ -6,6 +6,7 @@ public class IdleState : BaseState
 
     public IdleState(AIContext context) : base(context)
     {
+
     }
 
     public override void OnEnter()
@@ -15,6 +16,7 @@ public class IdleState : BaseState
 
     public override void OnExit()
     {
+
     }
 
     public override void OnUpdate()

@@ -1,4 +1,3 @@
-using System;
 using System.Numerics;
 using TMPro;
 using UnityEngine;
@@ -11,24 +10,29 @@ public class HUD : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelTxt;
     [SerializeField] private Image expBar;
 
-    public Action<BigInteger> onGoldChanged;
-    public Action<int> onStageChanged;
-    public Action<int> onLevelChanged;
-    public Action<float> onExpChanged;
+    private PlayerStat playerStat;
+    private GameManager gameManager;
 
-    void OnEnable()
+    private void OnEnable()
     {
-        onGoldChanged += GoldChanged;
-        onStageChanged += StageChanged;
-        onLevelChanged += LevelChanged;
-        onExpChanged += ExpChanged;
+        gameManager = GameManager.Instance;
+        goldTxt.text = gameManager.Inventory.Gold.ToString();
+        stageTxt.text = StageManager.Instance.CurrentStage.ToString();
+        playerStat = gameManager.Player.Stat as PlayerStat;
+        levelTxt.text = playerStat.Level.ToString();
+        gameManager.Inventory.onGoldChanged += GoldChanged;
+        StageManager.Instance.onStageChanged += StageChanged;
+        playerStat.onLevelChanged += LevelChanged;
+        playerStat.onExpChanged += ExpChanged;
     }
-    void OnDisable()
+    private void OnDisable()
     {
-        onGoldChanged -= GoldChanged;
-        onStageChanged -= StageChanged;
-        onLevelChanged -= LevelChanged;
-        onExpChanged -= ExpChanged;
+        if(gameManager != null)
+            gameManager.Inventory.onGoldChanged -= GoldChanged;
+        if(StageManager.Instance != null)
+            StageManager.Instance.onStageChanged -= StageChanged;
+        playerStat.onLevelChanged -= LevelChanged;
+        playerStat.onExpChanged -= ExpChanged;
     }
     public void GoldChanged(BigInteger value)
     {
