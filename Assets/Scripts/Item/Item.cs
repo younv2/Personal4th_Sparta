@@ -3,17 +3,17 @@ using UnityEngine;
 public class Item
 {
     private int id;
-    private int stack;
+    private int quantity;
 
     public int Id {  get { return id; } }
-    public int Stack { get { return stack; } }
+    public int Quantity { get { return quantity; } }
     public Item(int id)
     {
         this.id = id;
-        this.stack = 1;
+        this.quantity = 1;
     }
     public void AddStack()
     {
-        stack++;
+        quantity++;
     }
 }

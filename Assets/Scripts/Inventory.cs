@@ -10,6 +10,7 @@ public class Inventory
     public BigInteger Gold { get { return gold; } }
 
     public Action<BigInteger> onGoldChanged;
+    public List<Item> Items {  get { return items; } }
 
     public void AddGold(BigInteger gold)
     {
@@ -31,7 +32,7 @@ public class Inventory
     {
         foreach(var data in items)
         {
-            if(data.Id == item.Id && item.isStackable && data.Stack < item.maxStackCount)
+            if(data.Id == item.Id && item.isStackable && data.Quantity < item.maxStackCount)
             {
                 data.AddStack();
                 return;
@@ -44,7 +45,7 @@ public class Inventory
         ItemData item = DataManager.Instance.GetItemData(itemId);
         foreach (var data in items)
         {
-            if (data.Id == item.Id && item.isStackable && data.Stack < item.maxStackCount)
+            if (data.Id == item.Id && item.isStackable && data.Quantity < item.maxStackCount)
             {
                 data.AddStack();
                 Debug.Log("아이템 갯수 추가");
