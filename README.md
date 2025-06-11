@@ -23,7 +23,7 @@
 - NavMesh를 이용한 적 AI(FSM) 구현
 - Scriptable Object를 이용한 데이터 구현
 - 확장 메서드
-
+- 시드를 이용한 절차적 맵 생성
 ## ⏲️ 개발기간
 - 2025-06-05 ~ 2025-06-11
 
@@ -41,3 +41,13 @@
 
 ## 게임이미지
 
+맵 생성<br>
+![image](https://github.com/user-attachments/assets/30fe6732-f06d-4c7d-af74-fad674866040)
+![image](https://github.com/user-attachments/assets/97f552ed-321c-4951-9792-4f47d781dc15)
+
+![image](https://github.com/user-attachments/assets/df0a07cf-5ea6-4ee7-b748-3fc568cf0bfa)
+
+상점 <br>
+![image](https://github.com/user-attachments/assets/69035135-1ebc-4354-ba7b-69b5a0828c17)
+인벤토리<br>
+![image](https://github.com/user-attachments/assets/8d47977f-f1a5-4e69-9545-8ca9bf3f19e9)
