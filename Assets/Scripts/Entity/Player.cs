@@ -10,8 +10,4 @@ public class Player : EntityBase
         controller.Init(stat);
         team = Team.Player; 
     }
-    private void Update()
-    {
-        Debug.Log(stat.Stats[StatType.AttackRange].FinalValue);
-    }
 }

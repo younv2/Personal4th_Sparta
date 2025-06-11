@@ -40,6 +40,7 @@ public class InventoryPopup : BasePopup
         {
             if (i < items.Count)
             {
+                
                 var data = DataManager.Instance.GetItemData(items[i].Id);
                 pools[i].Init(data, items[i].Quantity);
                 pools[i].gameObject.SetActive(true);
