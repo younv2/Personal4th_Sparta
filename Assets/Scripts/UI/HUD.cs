@@ -36,7 +36,7 @@ public class HUD : MonoBehaviour
     }
     public void GoldChanged(BigInteger value)
     {
-        goldTxt.text = value.ToString();
+        goldTxt.text = BigIntegerFormatter.FormatBigNumber(value);
     }
     public void StageChanged(int value)
     {
