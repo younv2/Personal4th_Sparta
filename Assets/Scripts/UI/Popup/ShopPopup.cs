@@ -17,4 +17,9 @@ public class ShopPopup : BasePopup
             go.GetComponent<ShopItemSlot>().Init(shopData.itemDatas[i].itemId, shopData.itemDatas[i].price);
         }
     }
+    public override void Show()
+    {
+        base.Show();
+        SoundManager.Instance.PlaySound(SoundType.SFX, "Shoot", false);
+    }
 }

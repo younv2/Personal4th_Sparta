@@ -15,6 +15,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         UnityEngine.Random.InitState(seed);
         StartCoroutine(GenerateAndStartStage());
+        SoundManager.Instance.PlaySound(SoundType.BGM, "bgm", true);
     }
     /// <summary>
     /// 맵 생성후 같은 프레임에 BuildNavMesh를 호출하면 Build를 못함.

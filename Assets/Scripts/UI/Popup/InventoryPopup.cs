@@ -26,7 +26,7 @@ public class InventoryPopup : BasePopup
     public override void Show()
     {
         base.Show();
-
+        SoundManager.Instance.PlaySound(SoundType.SFX, "Shoot", false);
         items = GameManager.Instance.Inventory.Items;
 
         while (pools.Count < items.Count)
