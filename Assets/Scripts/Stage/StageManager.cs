@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class StageManager : MonoSingleton<StageManager>
 {
     [SerializeField] private StageDataSO stageDataSO;
-    [SerializeField] private GameObject playerPrefab;
+    
     public List<RoomArea> allRooms = new();
     private int currentStage = 1;
 
@@ -17,13 +18,9 @@ public class StageManager : MonoSingleton<StageManager>
     public void StartStage(int level)
     {
         currentStage = level;
-        if (GameManager.Instance.Player == null)
-        {
-            GameObject go = Instantiate(playerPrefab, Vector3.up, Quaternion.identity);
-            GameManager.Instance.Player = go.GetComponent<Player>();
-        }
-        else
-            GameManager.Instance.Player.transform.position = Vector3.up;
+        GameManager.Instance.Player.transform.position = Vector3.up;
+        GameManager.Instance.Player.GetComponent<NavMeshAgent>().enabled = true;
+        GameManager.Instance.Player.GetComponent<FSMController>().enabled = true;
         StageInfo stageInfo = stageDataSO.Stages.FirstOrDefault(x=>x.stageKey == level);
         if (stageInfo == null)
         {
@@ -47,8 +44,8 @@ public class StageManager : MonoSingleton<StageManager>
         MonsterFactory.Instance.Create(monsterType, NavMeshUtil.GetRandomPointOnNavMesh(x => x == RoomType.Boss,allRooms), Quaternion.identity);
 
         yield return new WaitUntil(() => MonsterManager.Instance.GetMonsterCount() == 0);
-
         StartStage(currentStage + 1);
+        SaveManager.Instance.Save();
     }
 }
 

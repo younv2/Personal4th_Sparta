@@ -10238,6 +10238,7 @@ MonoBehaviour:
   seed: 12345
   mapGenerator: {fileID: 810354651}
   levelTable: {fileID: 11400000, guid: 38c2a2fdad2047947a81353ea940a8b9, type: 2}
+  playerPrefab: {fileID: 1040463233941554194, guid: c5dff3732b576374aa451734f2d643f8, type: 3}
   virtualCamera: {fileID: 1496441788}
 --- !u!4 &1883276581
 Transform:
@@ -10267,7 +10268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageDataSO: {fileID: 11400000, guid: b50251b36abaa0d43bc6a2e1f49b88fb, type: 2}
-  playerPrefab: {fileID: 1040463233941554194, guid: c5dff3732b576374aa451734f2d643f8, type: 3}
 --- !u!1 &1938991398
 GameObject:
   m_ObjectHideFlags: 0

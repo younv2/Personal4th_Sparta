@@ -32,5 +32,9 @@ public class PlayerStat : BaseStat
         MaxExp = GameManager.Instance.LevelTable.GetExpPerLevel(Level);
         onLevelChanged?.Invoke(Level);
     }
+    public void SetLevel(int level)
+    {
+        Level = level;
+    }
 }
 

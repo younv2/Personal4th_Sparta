@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Numerics;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
@@ -7,6 +8,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private LevelTableSO levelTable;
+    [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
     public LevelTableSO LevelTable {  get { return levelTable; } }
     public Inventory Inventory { get; private set; } = new();
@@ -14,7 +16,13 @@ public class GameManager : MonoSingleton<GameManager>
     void Start()
     {
         UnityEngine.Random.InitState(seed);
-        StartCoroutine(GenerateAndStartStage());
+        GameObject go = Instantiate(playerPrefab, UnityEngine.Vector3.up, UnityEngine.Quaternion.identity);
+        GameManager.Instance.Player = go.GetComponent<Player>();
+        SaveData loadData = SaveManager.Instance.Load();
+        PlayerStat stat = Player.Stat as PlayerStat;
+        stat.SetLevel(loadData.level);
+        Inventory.AddGold(BigInteger.Parse(loadData.gold));
+        StartCoroutine(GenerateAndStartStage(loadData.stage));
         SoundManager.Instance.PlaySound(SoundType.BGM, "bgm", true);
     }
     /// <summary>
@@ -22,14 +30,14 @@ public class GameManager : MonoSingleton<GameManager>
     /// 한 프레임 이후 작업.
     /// </summary>
     /// <returns></returns>
-    IEnumerator GenerateAndStartStage()
+    IEnumerator GenerateAndStartStage(int stage)
     {
         mapGenerator.GenerateMap();
 
         yield return null;
 
         mapGenerator.Surface.BuildNavMesh();
-        StageManager.Instance.StartStage(1);
+        StageManager.Instance.StartStage(stage);
         virtualCamera.Follow = Player.transform;
         UIManager.Instance.HUD.gameObject.SetActive(true);
     }
