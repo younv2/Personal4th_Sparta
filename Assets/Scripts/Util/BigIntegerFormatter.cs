@@ -19,7 +19,6 @@ public static class BigIntegerFormatter
             unitIndex++;
         }
 
-        // Adjust to display one decimal place if the number is large enough
         string formatString = unitIndex == 0 ? "{0}" : "{0:0.#}{1}";
         return string.Format(formatString, number, units[unitIndex]);
     }

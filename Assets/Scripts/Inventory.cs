@@ -14,6 +14,7 @@ public class Inventory
 
     public List<Item> Items {  get { return items; } }
     public BigInteger Gold { get { return gold; } }
+    public Dictionary<EquipmentType, Item> Equipment { get {  return equipment; } }
 
     public Item GetItem(int itemId)
     {

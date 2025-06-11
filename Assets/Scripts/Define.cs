@@ -35,7 +35,7 @@ public enum Team
 }
 public enum UIPopupType
 {
-    Shop, Inventory
+    Shop, Inventory, Equipment
 }
 public enum RoomType { Start, Normal, Boss }
 public enum EquipmentType {None ,Weapon}

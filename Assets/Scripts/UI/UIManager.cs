@@ -7,6 +7,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private HUD hud;
     [SerializeField] private Button shopBtn;
     [SerializeField] private Button inventoryBtn;
+    [SerializeField] private Button equipmentBtn;
     [SerializeField] private List<KeyValuePair> keyValuePairs = new List<KeyValuePair>();
     private Dictionary<UIPopupType,BasePopup> popups =new();
     public HUD HUD { get { return hud; } }
@@ -24,6 +25,7 @@ public class UIManager : MonoSingleton<UIManager>
         }
         shopBtn.onClick.AddListener(() => popups[UIPopupType.Shop].Show());
         inventoryBtn.onClick.AddListener(() => popups[UIPopupType.Inventory].Show());
+        equipmentBtn.onClick.AddListener(() => popups[UIPopupType.Equipment].Show());
     }
 }
 [System.Serializable]
